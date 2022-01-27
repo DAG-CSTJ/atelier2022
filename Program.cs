@@ -7,6 +7,12 @@ namespace atelier2022
         static void Main(string[] args)
         {
             Console.WriteLine("Allo World!");
+            fonction1();
+        }
+
+        static void fonction1()
+        {
+            Console.WriteLine("In fonction1()");
         }
     }
 }
