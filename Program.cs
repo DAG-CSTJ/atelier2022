@@ -6,9 +6,20 @@ namespace atelier2022
     {
         static void Main(string[] args)
         {
-            Console.Clear();
-            Console.WriteLine("Le Financier!");
-            CalculerRendementErgo();
+            bool go = true;
+            ConsoleKey cle;
+
+            while (go)
+            {
+                Console.Clear();
+                Console.WriteLine("Le Financier!");
+                CalculerRendementErgo();
+
+                Console.WriteLine("appuyez une touche pour continuer ou ESC pour quitter");
+                cle = Console.ReadKey(true).Key;
+                if (cle == ConsoleKey.Escape)
+                    go = false;
+            }
             //CalculerRemboursementPret();
         }
 
@@ -17,6 +28,7 @@ namespace atelier2022
             string strDepot;
             string strTauxInt;
             string strDuree;
+            string strCompo;
 
             double Depot;
             double tauxInt;
@@ -29,6 +41,8 @@ namespace atelier2022
             strTauxInt = Console.ReadLine();
             Console.WriteLine("Durée:");
             strDuree = Console.ReadLine();
+            Console.WriteLine("Composition de l'intérêt:");
+            strCompo = Console.ReadLine();
             Console.WriteLine("Paramètres:\nDépôt: {0}\nTaux intérêt:{1}\nDurée:{2}", strDepot, strTauxInt, strDuree);
 
             Depot = Convert.ToDouble(strDepot);
@@ -37,14 +51,44 @@ namespace atelier2022
             rendementCumul = Depot;
 
             int tempsCumul = 0;
-            while (tempsCumul < duree)
+
+            switch(strCompo)
             {
-                tempsCumul++;
-                rendementCumul += tauxInt * rendementCumul;
-                Console.WriteLine("iter {0}: rendementCumul {1}", tempsCumul, rendementCumul);
+                case "a":
+                    while (tempsCumul < duree)
+                    {
+                        tempsCumul++;
+                        rendementCumul += tauxInt * rendementCumul;
+                        Console.WriteLine("iter {0}: rendementCumul {1}", tempsCumul, rendementCumul.ToString(".00"));
+                    }
+                    break;
+
+                case "m":
+                    while (tempsCumul < duree*12)
+                    {
+                        tempsCumul++;
+                        rendementCumul += tauxInt/12 * rendementCumul;
+                        Console.WriteLine("iter {0}: rendementCumul {1}", tempsCumul, rendementCumul.ToString(".00"));
+                    }
+                    break;
+
+                case "q":
+                    while (tempsCumul < duree*365)
+                    {
+                        tempsCumul++;
+                        rendementCumul += tauxInt/365 * rendementCumul;
+                        Console.WriteLine("iter {0}: rendementCumul {1}", tempsCumul, rendementCumul.ToString(".00"));
+                    }
+                    break; 
+
+                default:
+                    Console.WriteLine("ERREUR: Le choix de composition {0} est invalide", strCompo);
+                    break;
+
             }
 
-            Console.WriteLine("A terme mon dépot vaut: {0}", rendementCumul);
+
+            Console.WriteLine("A terme mon dépot vaut: {0}", rendementCumul.ToString(".00"));
         }
 
         static void CalculerRendement()
